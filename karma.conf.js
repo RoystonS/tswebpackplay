@@ -38,8 +38,23 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage', 'karma-remap-istanbul'],
+    coverageReporter: {
+      reporters: [
+        { type: 'json', file: 'coverage-final.json', subdir: '.' },
+        { type: 'text-summary' }
+      ]
+    },
 
+    remapIstanbulReporter: {
+      src: 'coverage/coverage-final.json',
+      reports: {
+        lcovonly: 'coverage/lcov.info',
+        html: 'coverage/html-report'
+      },
+      timeoutNotCreated: 5000,
+      timeoutNoMoreFiles: 1000
+    },
 
     // web server port
     port: 9876,

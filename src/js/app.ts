@@ -1,6 +1,6 @@
-import './polyfill';
+// import './polyfill';
 
-import { Foo } from './module2';
+import { Person } from './module2';
 
-let f = new Foo();
-console.log(f);
+let p = new Person("bob");
+console.log(p);

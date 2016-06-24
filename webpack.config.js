@@ -1,11 +1,28 @@
+const fs = require('fs');
+
 const { resolve } = require('path');
 const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = env => {
+  let envName = "dev";
+  if (env.prod) { envName = "production"; }
+  if (env.test) { envName = "test"; }
+
+  const ENV = process.env.ENV = process.env.NODE_ENV = envName;
+
   const ifProd = (x) => env.prod ? x : undefined;
+  const ifTest = (x) => env.test ? x : undefined;
+
   const removeEmpty = (list) => list.filter(x => !!x);
+
+  let tsConfigCompilerOptionsOverrides = {};
+  if (env.test) {
+    tsConfigCompilerOptionsOverrides.module = 'commonjs';
+    tsConfigCompilerOptionsOverrides.inlineSourceMap = true;
+    tsConfigCompilerOptionsOverrides.sourceMap = false;
+  }
 
   return {
     entry: './js/app.ts',
