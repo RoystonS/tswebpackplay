@@ -13,7 +13,6 @@ module.exports = env => {
   const ENV = process.env.ENV = process.env.NODE_ENV = envName;
 
   const ifProd = (x) => env.prod ? x : undefined;
-  const ifTest = (x) => env.test ? x : undefined;
 
   const removeEmpty = (list) => list.filter(x => !!x);
 
@@ -61,11 +60,12 @@ module.exports = env => {
         minimize: true,
         debug: false
       })),
-      ifProd(new webpack.DefinePlugin({
+      new webpack.DefinePlugin({
+        'ENV': JSON.stringify(ENV),
         'process.env': {
-          NODE_ENV: '"production"'
+          NODE_ENV: JSON.stringify(ENV)
         }
-      })),
+      }),
       ifProd(new webpack.optimize.UglifyJsPlugin({
         compress: {
           screw_ie8: true,
